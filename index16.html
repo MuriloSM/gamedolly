@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <div id="pontos" style="position:absolute; top:0; right:0; width:100%; text-align:center; color:rgb(0, 0, 0); font-size:50px; font-weight:bold;">Pontos: 0</div>
+  <img id="player" src="./images/dollynho.png" style="position:absolute; bottom:0; left:50%; width:300px; height:300px">
+  <img class="alvo" src="./images/alvo1.jpg" style="position:absolute; top:100px; left:100px; width:100px; height:100px;" data-pontos="1">
+  <img class="alvo" src="./images/lataAmarela.jpg" style="position:absolute; top:100px; left:200px; width:100px; height:100px;" data-pontos="-2">
+  <img class="alvo" src="./images/lataAzul.jpg" style="position:absolute; top:100px; left:300px; width:100px; height:100px;" data-pontos="-2">
+  <img class="alvo" src="./images/lataVerde.jpg" style="position:absolute; top:100px; left:400px; width:100px; height:100px;" data-pontos="-2">
+  <!-- Adicione mais alvos conforme necessário -->
+
+  <script>
+    let player = document.getElementById('player');
+    let alvos = document.getElementsByClassName('alvo');
+    let pontos = 0;
+    let projéteis = [];
+    let intervalIds = [];
+
+    function atualizarPontos() {
+      document.getElementById('pontos').textContent = 'Pontos: ' + pontos;
+    }
+
+    function reposicionarAlvo(alvo) {
+        let novoX;
+      let sobreposicao;
+      let margem = 150;
+      do {
+        sobreposicao = false;
+        novoX = Math.random() * (window.innerWidth - alvo.offsetWidth - margem);
+        for (let i = 0; i < alvos.length; i++) {
+          if (alvos[i] !== alvo && Math.abs(alvos[i].offsetLeft - novoX) < 100) {
+            sobreposicao = true;
+            break;
+          }
+        }
+      } while (sobreposicao);
+      alvo.style.left = novoX + 'px';
+    }
+    
+
+    function reposicionarAlvos() {
+      for (let i = 0; i < alvos.length; i++) {
+        reposicionarAlvo(alvos[i]);
+      }
+    }
+
+    window.addEventListener('keydown', function(event) {
+      let x = player.offsetLeft;
+      let y = window.innerHeight - player.offsetTop;
+      let novoX;
+      switch (event.key) {
+        case 'ArrowUp':
+          player.style.bottom = (0) + 'px';
+          break;
+        case 'ArrowDown':
+          player.style.bottom = (0) + 'px';
+          break;
+        case 'ArrowLeft':
+            novoX = x - 40;
+            if (novoX < 0) novoX = 0;  // Verifica se o jogador está no limite esquerdo da página
+            player.style.left = novoX + 'px';
+            break;
+        case 'ArrowRight':
+            novoX = x + 40;
+            if (novoX > window.innerWidth - player.offsetWidth) novoX = window.innerWidth - player.offsetWidth;  // Verifica se o jogador está no limite direito da página
+            player.style.left = novoX + 'px';
+          break;
+        case ' ':
+          let projétil = document.createElement('img');
+          projétil.src = './images/proj.jpg';
+          projétil.style.position = 'absolute';
+          projétil.style.bottom = (y + 10) + 'px';
+          projétil.style.left = (x + 10) + 'px';
+          projétil.width = 40; // Defina a largura do projétil
+          projétil.height = 40;
+        
+          document.body.appendChild(projétil);
+          projéteis.push(projétil);
+          let intervalId = setInterval(function() {
+            let px = projétil.offsetLeft;
+            let py = window.innerHeight - projétil.offsetTop;
+            projétil.style.bottom = (py + 10) + 'px';
+            if (py >= window.innerHeight) {
+              pontos--;
+              atualizarPontos();
+              clearInterval(intervalId);
+              document.body.removeChild(projétil);
+              let index = projéteis.indexOf(projétil);
+              if (index > -1) {
+                projéteis.splice(index, 1);
+                intervalIds.splice(index, 1);
+              }
+            } else {
+              for (let i = 0; i < alvos.length; i++) {
+                let dx = alvos[i].offsetLeft + 35 - px; // ZONA DE ACERTO
+                let dy = window.innerHeight - alvos[i].offsetTop - py;
+                let distancia = Math.sqrt(dx * dx + dy * dy);
+                if (distancia < 50) {
+                  let pontosAlvo = parseInt(alvos[i].getAttribute('data-pontos'));
+                  pontos += pontosAlvo;
+                  atualizarPontos();
+                  if (pontosAlvo > 0) {
+                    reposicionarAlvos();
+                  } else {
+                    reposicionarAlvo(alvos[i]);
+                  }
+                  clearInterval(intervalId);
+                  document.body.removeChild(projétil);
+                  let index = projéteis.indexOf(projétil);
+                  if (index > -1) {
+                    projéteis.splice(index, 1);
+                    intervalIds.splice(index, 1);
+                  }
+                  break;
+                }
+              }
+            }
+          }, 70);  // VELOCIDADE DO PROJETIL
+          intervalIds.push(intervalId);
+          break;
+      }
+    });
+  </script>
+</body>
+</html>
