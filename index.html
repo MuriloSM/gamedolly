@@ -17,7 +17,7 @@
     let intervalIds = [];
 
     function atualizarPontos() {
-      document.getElementById('pontos').textContent = 'PONTUAÇÃO: ' + pontos;
+      document.getElementById('pontos').textContent = 'PONTUAÇÃOx: ' + pontos;
     }
 
     function reposicionarAlvo(alvo) {
@@ -131,6 +131,51 @@
             projétil.style.left = (x + 10) + 'px';
             projétil.width = 40; // Defina a largura do projétil
             projétil.height = 40;
+
+            document.body.appendChild(projétil);
+            projéteis.push(projétil);
+          let intervalId = setInterval(function() {
+            let px = projétil.offsetLeft;
+            let py = window.innerHeight - projétil.offsetTop;
+            projétil.style.bottom = (py + 10) + 'px';
+            if (py >= window.innerHeight) {
+              pontos--;
+              atualizarPontos();
+              clearInterval(intervalId);
+              document.body.removeChild(projétil);
+              let index = projéteis.indexOf(projétil);
+              if (index > -1) {
+                projéteis.splice(index, 1);
+                intervalIds.splice(index, 1);
+              }
+            } else {
+              for (let i = 0; i < alvos.length; i++) {
+                let dx = alvos[i].offsetLeft + 35 - px; // ZONA DE ACERTO
+                let dy = window.innerHeight - alvos[i].offsetTop - py;
+                let distancia = Math.sqrt(dx * dx + dy * dy);
+                if (distancia < 50) {
+                  let pontosAlvo = parseInt(alvos[i].getAttribute('data-pontos'));
+                  pontos += pontosAlvo;
+                  atualizarPontos();
+                  if (pontosAlvo > 0) {
+                    reposicionarAlvos();
+                  } else {
+                    reposicionarAlvo(alvos[i]);
+                  }
+                  clearInterval(intervalId);
+                  document.body.removeChild(projétil);
+                  let index = projéteis.indexOf(projétil);
+                  if (index > -1) {
+                    projéteis.splice(index, 1);
+                    intervalIds.splice(index, 1);
+                  }
+                  break;
+                }
+              }
+            }
+          }, 70);  // VELOCIDADE DO PROJETIL
+          intervalIds.push(intervalId);
+          
     // ... (aqui você adiciona o mesmo código que está dentro do caso ' ' do switch no evento de teclado)
     // Fim do código adicionado
     });
