@@ -23,7 +23,7 @@
         left: 0;
       }
       50% {
-        left: 80%; /* Ajuste este valor para a distância que você quer que o personagem se mova */
+        left: 90%; /* Ajuste este valor para a distância que você quer que o personagem se mova */
       }
     }
 
@@ -104,12 +104,12 @@
           break;
         case ' ':
           let projétil = document.createElement('img');
-          projétil.src = './images/proj.jpg';
+          projétil.src = './images/proj.png ';
           projétil.style.position = 'absolute';
           projétil.style.bottom = (y + 10) + 'px';
           projétil.style.left = (x + 10) + 'px';
-          projétil.width = 40; // Defina a largura do projétil
-          projétil.height = 40;
+          projétil.width = 80; // Defina a largura do projétil
+          projétil.height = 80;
         
           document.body.appendChild(projétil);
           projéteis.push(projétil);
@@ -162,12 +162,12 @@
       let x = player.offsetLeft;
       let y = window.innerHeight - player.offsetTop;
       let projétil = document.createElement('img');
-            projétil.src = './images/proj.jpg';
+            projétil.src = './images/proj.png';
             projétil.style.position = 'absolute';
             projétil.style.bottom = (y + 10) + 'px';
             projétil.style.left = (x + 10) + 'px';
-            projétil.width = 40; // Defina a largura do projétil
-            projétil.height = 40;
+            projétil.width = 80; // Defina a largura do projétil
+            projétil.height = 80;
 
             document.body.appendChild(projétil);
             projéteis.push(projétil);
