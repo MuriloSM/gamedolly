@@ -40,10 +40,10 @@
   </div>
   <div id="pontos" style="position:absolute; top:0; right:0; width:100%; text-align:center; color:rgb(0, 0, 0); font-size:50px; font-weight:bold;">Pontos: 0</div>
   <img class="personagem" id="player" src="./images/dollynho.png" style="position:absolute; bottom:0; left:50%; width:300px; height:300px">
-  <img class="alvo" src="./images/alvo1.jpg" style="position:absolute; top:100px; left:100px; width:100px; height:100px;" data-pontos="1">
-  <img class="alvo" src="./images/lataAmarela.jpg" style="position:absolute; top:100px; left:200px; width:100px; height:100px;" data-pontos="-2">
-  <img class="alvo" src="./images/lataAzul.jpg" style="position:absolute; top:100px; left:300px; width:100px; height:100px;" data-pontos="-2">
-  <img class="alvo" src="./images/lataVerde.jpg" style="position:absolute; top:100px; left:400px; width:100px; height:100px;" data-pontos="-2">
+  <img class="alvo" src="./images/alvo1.jpg" style="position:absolute; top:100px; left:100px; width:150px; height:150px;" data-pontos="1">
+  <img class="alvo" src="./images/lataAmarela.jpg" style="position:absolute; top:100px; left:200px; width:150px; height:150px;" data-pontos="-2">
+  <img class="alvo" src="./images/lataAzul.jpg" style="position:absolute; top:100px; left:300px; width:150px; height:150px;" data-pontos="-2">
+  <img class="alvo" src="./images/lataVerde.jpg" style="position:absolute; top:100px; left:400px; width:150px; height:150px;" data-pontos="-2">
   <!-- Adicione mais alvos conforme necessário -->
 
   <script>
@@ -129,7 +129,7 @@
               }
             } else {
               for (let i = 0; i < alvos.length; i++) {
-                let dx = alvos[i].offsetLeft + 35 - px; // ZONA DE ACERTO
+                let dx = alvos[i].offsetLeft + 50 - px; // ZONA DE ACERTO
                 let dy = window.innerHeight - alvos[i].offsetTop - py;
                 let distancia = Math.sqrt(dx * dx + dy * dy);
                 if (distancia < 50) {
