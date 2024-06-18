@@ -120,6 +120,20 @@
           break;
       }
     });
+    window.addEventListener('touchend', function(event) {
+    // Início do código adicionado para lançamento do projétil por toque na tela
+      let x = player.offsetLeft;
+      let y = window.innerHeight - player.offsetTop;
+      let projétil = document.createElement('img');
+            projétil.src = './images/proj.jpg';
+            projétil.style.position = 'absolute';
+            projétil.style.bottom = (y + 10) + 'px';
+            projétil.style.left = (x + 10) + 'px';
+            projétil.width = 40; // Defina a largura do projétil
+            projétil.height = 40;
+    // ... (aqui você adiciona o mesmo código que está dentro do caso ' ' do switch no evento de teclado)
+    // Fim do código adicionado
+    });
   </script>
 </body>
 </html>
